@@ -1,5 +1,5 @@
 import pygame
-from models.Ball import Ball
+from Ball import Ball
 from models.Player import Player
 import random
 
@@ -8,71 +8,48 @@ pygame.init()
 #window settings
 windowWidth, windowHeight = 1280, 720
 window = pygame.display.set_mode((windowWidth, windowHeight))
-pygame.display.set_caption("[PILOT] BINGO SIMULATOR") #alteração de ideia: pendulo de newton
+pygame.display.set_caption("[PILOT] BEEs") #alteração de ideia: pendulo de newton
 clock = pygame.time.Clock()
-    
-def verifica_colisao(a1, b1, contador):
-    if a1.x == b1.x+b1.width:
-        a1.inverterX()
-        print(contador, "COLIDIU!")
-        contador+=1
-    if a1.y == b1.y+b1.height:
-        a1.inverterY()
-        print(contador, "COLIDIU!")
-        contador+=1
 
 
-b1 = Ball(window)
-b2 = Ball(window)
+#number of blls
+balls = 20
+ball_group = pygame.sprite.Group()
+for i in range(balls):
+    i = Ball(window)
+    ball_group.add(i)
+
+#Grupo de jogadores
 p1 = Player(window)
-p2 = Player(window)
-
-p2.x = 1870
-
-contador = 0
-running = True
 player_group = pygame.sprite.Group()
 player_group.add(p1)
-player_group.add(p2)
 
-ball_group = pygame.sprite.Group()
-ball_group.add(b1)
-ball_group.add(b2)
 
+running = True
 while running:
     window.fill((255,255,0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    
-    ball_group.draw(window)
-    #b1.draw()
-    b1.move()
-    b1.colisao()
 
-    b2.move()
-    b2.colisao()
 
-    player_group.draw(window)
-    #p1.draw()
     p1.move()
     p1.colisao()
+    p1.draw()
 
-    p2.move()
-    p2.colisao()
 
-    #verifica_colisao(b1,p1,contador)
-
-    print(b1.x, b1.y)
-
-    colidiu = pygame.sprite.spritecollide(b1, player_group, False)
-    print(colidiu)
-    if colidiu:
-        b1.inverterX()
-        print("Olá!")
-
+    #ball_group.draw(window)
+    ball_group.update()    
+    
+    
+    for b in ball_group:
+        window.blit(b.image,b.rect)
+        colided = pygame.sprite.spritecollide(b, player_group, False)
+        if colided:
+            b.invertX()
 
     pygame.display.flip()
+    pygame.display.update()
     clock.tick(60)
 
 pygame.quit()
