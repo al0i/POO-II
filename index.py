@@ -13,7 +13,7 @@ clock = pygame.time.Clock()
 
 
 #number of blls
-balls = 20
+balls = 5000
 ball_group = pygame.sprite.Group()
 for i in range(balls):
     i = Ball(window)
