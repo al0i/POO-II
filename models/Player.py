@@ -5,11 +5,9 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.window = window
         self.width = 10
-        self.height = 400
-        #self.x = 50
-        #self.y = 300#(self.window.get_height()/2)-(self.height/2)
+        self.height = 500
         self.image = pygame.Surface((self.width, self.height))
-        self.rect = self.image.get_rect(topleft=(50, 300))
+        self.rect = self.image.get_rect(topleft=(50, 0))
         self.velocity_y = 5
         self.velocity_x = 5
         self.color = (0,0,255)
