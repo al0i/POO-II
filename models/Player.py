@@ -1,16 +1,21 @@
 import pygame, random
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, window):
+    def __init__(self, window, n):
         super().__init__()
         self.window = window
         self.width = 10
         self.height = 500
         self.image = pygame.Surface((self.width, self.height))
-        self.rect = self.image.get_rect(topleft=(50, 0))
+        self.rect = self.image.get_rect(topleft=(50 if n == 1 else window.get_width()-50, 0))
         self.velocity_y = 5
         self.velocity_x = 5
         self.color = (0,0,255)
+        self.pontos = 0
+
+    def update(self):
+        self.move()
+        self.colisao()
 
     def move(self):
         self.rect.y += self.velocity_y
