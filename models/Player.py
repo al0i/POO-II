@@ -5,9 +5,9 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.window = window
         self.width = 10
-        self.height = 500
+        self.height = 250
         self.image = pygame.Surface((self.width, self.height))
-        self.rect = self.image.get_rect(topleft=(50 if n == 1 else window.get_width()-50, 0))
+        self.rect = self.image.get_rect(topleft=(50 if n == 1 else window.get_width()-50 if n == 2 else window.get_width()/2, 0))
         self.velocity_y = 5
         self.velocity_x = 5
         self.color = (0,0,255)
@@ -32,5 +32,6 @@ class Player(pygame.sprite.Sprite):
         if self.rect.x >= self.window.get_width() or self.rect.x <= 0:
             self.inverterX()
 
+#mesma coisa que nada
     def draw(self):
         pygame.draw.rect(self.window,self.color,pygame.Rect(self.rect.x, self.rect.y, self.width, self.height))
