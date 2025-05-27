@@ -9,6 +9,7 @@ class Ball(pygame.sprite.Sprite):
         self.color = (255,0,0)
         self.radius = 10
         self.image = pygame.Surface((20,20))
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect(topleft=(random.randint(1,window.get_width()-1), random.randint(1,window.get_height()-1)))
 
     def move(self):
@@ -26,13 +27,14 @@ class Ball(pygame.sprite.Sprite):
         self.velocity_x *= -1
 
     def colisao(self):
-        if self.rect.y*1.05 >= self.window.get_height() or self.rect.y*1.05 <= 0:
+        if self.rect.top <= 0:
             self.invertY()
-            return True
-        if self.rect.x*1.05 >= self.window.get_width() or self.rect.x*1.05 <= 0:
+        if self.rect.bottom >= self.window.get_height():
+            self.invertY()
+        if self.rect.left <= 0:
             self.invertX()
-            return True
-        return False
+        if self.rect.right >= self.window.get_width():
+            self.invertX()
 
     def getY(self):
         return self.rect.y
