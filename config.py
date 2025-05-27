@@ -4,8 +4,8 @@ from models.Paddle import Paddle
 from models.Player import Player
 
 #Window setting
-windowWidth, windowHeight = 1280, 720
-window = pygame.display.set_mode((windowWidth, windowHeight))
+WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
+window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("[V1] PONG!")
 clock = pygame.time.Clock()
 
