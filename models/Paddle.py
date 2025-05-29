@@ -7,24 +7,55 @@ class Paddle(pygame.sprite.Sprite):
         self.width = 10
         self.height = 250
         self.image = pygame.Surface((self.width, self.height))
-        self.rect = self.image.get_rect(topleft=(50 if n == 1 else window.get_width()-50 if n == 2 else window.get_width()/2, 0))
-        self.velocity_y = 5
+        self.mask = pygame.mask.from_surface(self.image)
+        self.rect = self.image.get_rect(topleft=(50 if n == 1 else window.get_width()-50 if n == 2 else window.get_width()/2, (window.get_height()/2)-(self.height/2)))
+        self.velocity = 5
+        self.way = 1
         self.color = (0,0,255)
         self.pontos = 0
 
     def update(self):
         self.move()
-        self.colisao()
+        self.screenColision()
 
     def move(self):
-        self.rect.y += self.velocity_y
+        self.rect.y += self.velocity*self.way
+        if self.screenColision():
+            self.invertWay()
 
-    def inverterY(self):
-        self.velocity_y *= -1
+    def moveUp(self):
+        self.way = -1
+        if self.screenColision():
+            return False
+        self.rect.y += self.velocity*self.way
+        return True
 
-    def colisao(self):
-        if self.rect.y+self.height >= self.window.get_height() or self.rect.y <= 0:
-            self.inverterY()
+    def moveDown(self):
+        self.way = 1
+        if self.screenColision():
+            return False
+        self.rect.y += self.velocity*self.way
+        return True
+
+    def stop(self):
+        self.way = 0
+
+    def invertWay(self):
+        if self.way == 0:
+            return False
+        else:
+            self.way *= -1
+            return True
+
+    def screenColision(self):
+        if (self.rect.bottom >= self.window.get_height()) and (self.way == 1):
+            return True
+        elif (self.rect.top <= 0) and (self.way == -1):
+            return True
+        return False
+        
+    def getCenter(self):
+        return int(self.rect.y+(self.height/2))
 
 #mesma coisa que nada
     def draw(self):
