@@ -28,7 +28,7 @@ while running:
 
     #paddle_group.update()
     p2.update()
-    p1.update()
+    #p1.update()
     paddle_group.draw(window)
     
     #ball_group.draw(window)
@@ -47,7 +47,8 @@ while running:
                 b.rect.left = colided[0].rect.right  # encosta a bola no lado direito do paddle
                 b.invertX()
 
-    #j1.autoMove()
+    j1.autoMove()
+    j1.calcularRota()
 
     print("P1: ", p1.pontos," - P2: ",p2.pontos)
     if b1.screenColision() == 'left':
