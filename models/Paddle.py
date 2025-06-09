@@ -4,6 +4,7 @@ class Paddle(pygame.sprite.Sprite):
     def __init__(self, window, n):
         super().__init__()
         self.window = window
+        self.n = n
         self.width = 10
         self.height = 250
         self.image = pygame.Surface((self.width, self.height))

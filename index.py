@@ -11,6 +11,9 @@ for i in range(balls):
 b1 = Ball(window)
 ball_group.add(b1)
 
+#b2 = Ball(window)
+#ball_group.add(b2)
+
 p1 = Paddle(window, 1)
 p2 = Paddle(window, 2)
 paddle_group = pygame.sprite.Group()
@@ -18,6 +21,7 @@ paddle_group.add(p1)
 paddle_group.add(p2)
 
 j1 = Player(p1, b1)
+j2 = Player(p2, b1)
 
 running = True
 while running:
@@ -26,18 +30,11 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    #paddle_group.update()
-    p2.update()
-    #p1.update()
     paddle_group.draw(window)
-    
-    #ball_group.draw(window)
     ball_group.update()
 
     for b in ball_group:
         colided = pygame.sprite.spritecollide(b, paddle_group, False)
-        #if colided:
-        #    b.invertX()
         if colided:
             # Detectar a direção do movimento da bola
             if b.velocity_x > 0:  # bola indo para a direita
@@ -48,7 +45,8 @@ while running:
                 b.invertX()
 
     j1.autoMove()
-    j1.calcularRota()
+    j2.autoMove()
+    #j2.calcularRota()
 
     print("P1: ", p1.pontos," - P2: ",p2.pontos)
     if b1.screenColision() == 'left':
@@ -58,7 +56,6 @@ while running:
         p1.pontos += 1
         print("P1: ", p1.pontos," - P2: ",p2.pontos)
 
-    
     display_config()
 
 pygame.quit()
