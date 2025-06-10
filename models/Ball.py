@@ -56,9 +56,9 @@ class Ball(pygame.sprite.Sprite):
 
     def getY(self):
         return self.rect.y
+    
+    def getX(self):
+        return self.rect.x
 
     def draw(self):
-        #self.window.blit(self.image, self.rect)
-        #pygame.draw.circle(self.window,self.color,(self.rect.x,self.rect.y),self.radius)
-        #pygame.draw.circle(self.image, self.color, (10, 10), self.radius)
         pygame.draw.circle(self.window, self.color, self.rect.center, self.radius)

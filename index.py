@@ -11,8 +11,10 @@ for i in range(balls):
 b1 = Ball(window)
 ball_group.add(b1)
 
-#b2 = Ball(window)
-#ball_group.add(b2)
+b2 = Ball(window)
+ball_group.add(b2)
+
+print(ball_group.sprites()[0])
 
 p1 = Paddle(window, 1)
 p2 = Paddle(window, 2)
@@ -20,8 +22,8 @@ paddle_group = pygame.sprite.Group()
 paddle_group.add(p1)
 paddle_group.add(p2)
 
-j1 = Player(p1, b1)
-j2 = Player(p2, b1)
+j1 = Player(p1, ball_group)
+#j2 = Player(p2, ball_group)
 
 running = True
 while running:
@@ -45,10 +47,9 @@ while running:
                 b.invertX()
 
     j1.autoMove()
-    j2.autoMove()
-    #j2.calcularRota()
+    #j2.autoMove()
+    p2.update()
 
-    print("P1: ", p1.pontos," - P2: ",p2.pontos)
     if b1.screenColision() == 'left':
         p2.pontos += 1
         print("P1: ", p1.pontos," - P2: ",p2.pontos)
