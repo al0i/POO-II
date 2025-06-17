@@ -36,23 +36,27 @@ class Ball(pygame.sprite.Sprite):
             self.rect.left = 0
             if self.velocity_x < 0:
                 self.invertX()
-            return "left"
+                return True
         
         elif self.rect.right >= self.window.get_width():
             self.rect.right = self.window.get_width()
             if self.velocity_x > 0:
                 self.invertX()
-            return "right"
+                return True
         
         if self.rect.top <= 0:
             self.rect.top = 0
             if self.velocity_y < 0:
                 self.invertY()
+                return True
         
         elif self.rect.bottom >= self.window.get_height():
             self.rect.bottom = self.window.get_height()
             if self.velocity_y > 0:
                 self.invertY()
+                return True
+        
+        return False
 
     def getY(self):
         return self.rect.y

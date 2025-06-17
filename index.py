@@ -2,7 +2,7 @@ from config import *
 
 pygame.init()
 
-balls = 0
+balls = 10
 ball_group = pygame.sprite.Group()
 for i in range(balls):
     i = Ball(window)
@@ -47,6 +47,7 @@ while running:
                 b.invertX()
 
     j1.autoMove()
+    j1.decision()
     #j2.autoMove()
     p2.update()
 
