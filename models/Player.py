@@ -29,48 +29,47 @@ class Player:
     def showBallsRoute(self):
         for b in self.ball_group:
             self.calcularRota(b)
-            
-
     
     def decision(self):
-        bolas_vindo = []
-        #bolas_voltando = []
-
-        for b in self.ball_group:
-            if b.velocity_x < 0:
-                bolas_vindo.append(b)
-            else:
-                if b in bolas_vindo:
-                    bolas_vindo.remove(b)
-                else:
-                    pass
+        bolas_vindo = [b for b in self.ball_group if b.velocity_x < 0]
 
         #Das bolas que estão vindo, escolhe qual seguir
         for b in bolas_vindo:
-            if b.velocity_x < 0 and b.rect.x > self.paddle.rect.x:
-                if b.getX() < self.choiced_ball.getX():
-                    self.choiced_ball.color = (255,0,0)
-                    self.choiced_ball = b
-        self.choiced_ball.color = (0,0,255)
-        return self.choiced_ball
+            if b.getX() > self.paddle.rect.right:
+                if self.choiced_ball is None or b.getX() < self.choiced_ball.getX():
+                    self.setChoicedBall(b)
+                    return self.choiced_ball
+                
+    def setChoicedBall(self, ball):
+        if self.choiced_ball == None:
+            self.choiced_ball = ball
+            if self.choiced_ball != None:
+                self.choiced_ball.color = (0,0,255)
+        else:
+            self.choiced_ball.color = (255,0,0)
+            self.choiced_ball = ball
+            if self.choiced_ball != None:
+                self.choiced_ball.color = (0,0,255)
+        return True
 
     def autoMove(self):
-        if self.paddle.n == 1:
-            if self.paddle.getCenter() < self.calcularRota(self.choiced_ball)[1]:
-                self.paddle.moveDown()
-            elif self.paddle.getCenter() > self.calcularRota(self.choiced_ball)[1]:
-                self.paddle.moveUp()
-            else:
-                self.paddle.stop()
-        
-        elif self.paddle.n == 2:
-            if self.decision().velocity_x > 0:
-                if self.paddle.getCenter() < self.calcularRota()[1]:
+        if self.choiced_ball != None:
+            if self.paddle.n == 1:
+                if self.paddle.getCenter() < self.calcularRota(self.choiced_ball)[1]:
                     self.paddle.moveDown()
-                elif self.paddle.getCenter() > self.calcularRota()[1]:
+                elif self.paddle.getCenter() > self.calcularRota(self.choiced_ball)[1]:
                     self.paddle.moveUp()
                 else:
                     self.paddle.stop()
+            
+            elif self.paddle.n == 2:
+                if self.decision().velocity_x > 0:
+                    if self.paddle.getCenter() < self.calcularRota()[1]:
+                        self.paddle.moveDown()
+                    elif self.paddle.getCenter() > self.calcularRota()[1]:
+                        self.paddle.moveUp()
+                    else:
+                        self.paddle.stop()
 
     def calcularRota(self, ball_input):
         x2 = ball_input.rect.x + ball_input.velocity_x

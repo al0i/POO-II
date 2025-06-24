@@ -9,8 +9,8 @@ class Paddle(pygame.sprite.Sprite):
         self.height = 250
         self.image = pygame.Surface((self.width, self.height))
         self.mask = pygame.mask.from_surface(self.image)
-        self.rect = self.image.get_rect(topleft=(50 if n == 1 else window.get_width()-50 if n == 2 else window.get_width()/2, (window.get_height()/2)-(self.height/2)))
-        self.velocity = 15
+        self.rect = self.image.get_rect(topleft=(50 if n == 1 else window.get_width()-60 if n == 2 else window.get_width()/2, (window.get_height()/2)-(self.height/2)))
+        self.velocity = 5
         self.way = 1
         self.color = (0,0,255)
         self.pontos = 0
