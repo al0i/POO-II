@@ -6,16 +6,14 @@ class Ball(pygame.sprite.Sprite):
         self.window = window
         self.velocity_x = random.choice([-5,5])
         self.velocity_y = random.choice([-5,5])
-        self.color = (255,0,0)
+        self.color = (255,0,0) #RED
         self.radius = 10
-        self.image = pygame.Surface((20,20))
+        self.image = pygame.Surface((self.radius*2,self.radius*2))
         self.mask = pygame.mask.from_surface(self.image)
-        #self.rect = self.image.get_rect(topleft=(random.randint(1,window.get_width()-1), random.randint(1,window.get_height()-1)))
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(self.radius, window.get_width() - self.radius), random.randint(self.radius, window.get_height() - self.radius))
-        #self.image.set_colorkey((0,255,0))
         self.image.fill(self.color)
-        self.viva = True
+        self.isAlive = True
 
     def move(self):
         self.rect.y += self.velocity_y
@@ -26,7 +24,7 @@ class Ball(pygame.sprite.Sprite):
         self.screenColision()
         self.draw()
         if self.screenColision():
-            self.viva = False
+            self.isAlive = False
 
     def aumentaVelocidade(self):
         self.velocity_x *= 1.1
@@ -43,14 +41,11 @@ class Ball(pygame.sprite.Sprite):
         if self.rect.left <= 0:
             self.rect.left = 0
             if self.velocity_x < 0:
-                #self.invertX() 
-                #MATA-LA
                 return True
         
         elif self.rect.right >= self.window.get_width():
             self.rect.right = self.window.get_width()
             if self.velocity_x > 0:
-                #self.invertX()
                 return True
         
         if self.rect.top <= 0:

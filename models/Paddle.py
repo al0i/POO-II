@@ -1,4 +1,4 @@
-import pygame, random
+import pygame
 
 class Paddle(pygame.sprite.Sprite):
     def __init__(self, window, n):
@@ -12,34 +12,39 @@ class Paddle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=(50 if n == 1 else window.get_width()-60 if n == 2 else window.get_width()/2, (window.get_height()/2)-(self.height/2)))
         self.velocity = 5
         self.way = 1
-        self.color = (0,0,255)
+        self.color = (0,0,255) #BLUE
         self.pontos = 0
 
     def update(self):
-        self.move()
-        self.screenColision()
+        self.autoMove()
+        self.draw()
 
-    def move(self):
-        self.rect.y += self.velocity*self.way
+    def draw(self):
+        pygame.draw.rect(self.window,self.color,pygame.Rect(self.rect.x, self.rect.y, self.width, self.height))
+
+    def autoMove(self):
+        self.move()
         if self.screenColision():
             self.invertWay()
-
-    def moveUp(self):
-        self.way = -1
+        return True
+    
+    def move(self):
         if self.screenColision():
             return False
         self.rect.y += self.velocity*self.way
+        return True
+    
+    def moveUp(self):
+        self.way = -1
         return True
 
     def moveDown(self):
         self.way = 1
-        if self.screenColision():
-            return False
-        self.rect.y += self.velocity*self.way
         return True
 
     def stop(self):
         self.way = 0
+        return True
 
     def invertWay(self):
         if self.way == 0:
@@ -47,7 +52,7 @@ class Paddle(pygame.sprite.Sprite):
         else:
             self.way *= -1
             return True
-
+        
     def screenColision(self):
         if (self.rect.bottom >= self.window.get_height()) and (self.way == 1):
             return True
@@ -57,7 +62,3 @@ class Paddle(pygame.sprite.Sprite):
         
     def getCenter(self):
         return int(self.rect.y+(self.height/2))
-
-#mesma coisa que nada
-    def draw(self):
-        pygame.draw.rect(self.window,self.color,pygame.Rect(self.rect.x, self.rect.y, self.width, self.height))

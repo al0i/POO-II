@@ -3,64 +3,55 @@ import pygame
 class Player:
     def __init__(self, Paddle, ball_group):
         self.paddle = Paddle
-        #self.ball = ball_group.sprites()[0]
-        self.color = (0,255,0)
         self.ball_group = ball_group.sprites()
         self.choiced_ball = self.ball_group[0]
         self.ball = self.ball_group[0]
 
-    def moverY(self,y):
-        if y < self.paddle.getCenter():
+    def update(self):
+        #super().update()
+        self.autoMove()
+        self.decision()
+
+    def moverY(self,y): #ainda não está em uso
+        if y < self.paddle.getCenter() - self.paddle.velocity:
             self.paddle.moveUp()
-        elif y > self.paddle.getCenter():
+            return True
+        elif y > self.paddle.getCenter() + self.paddle.velocity:
             self.paddle.moveDown()
+            return True
         else:
+            self.paddle.stop()
             return False
-        return True
-
-
-    def abracar(self):
-        y = 0
-        for b in self.ball_group:
-            self.calcularRota(b)
-            y = self.calcularRota(b)[1]
-        self.moverY(y)
 
     def showBallsRoute(self):
         for b in self.ball_group:
-            self.calcularRota(b)
+            if b.isAlive:
+                self.calcularRota(b)
     
     def decision(self):
-        bolas_vindo = [b for b in self.ball_group if b.velocity_x < 0]
+        if self.paddle.n == 1:
+            bolas_vindo = [b for b in self.ball_group if b.velocity_x < 0]
 
-        #Das bolas que estão vindo, escolhe qual seguir
-        for b in bolas_vindo:
-            if b.getX() > self.paddle.rect.right:
-                if self.choiced_ball is None or b.getX() < self.choiced_ball.getX():
-                    self.setChoicedBall(b)
-                    return self.choiced_ball
-                
-    def setChoicedBall(self, ball):
-        if self.choiced_ball == None:
-            self.choiced_ball = ball
-            if self.choiced_ball != None:
-                self.choiced_ball.color = (0,0,255)
-        else:
-            self.choiced_ball.color = (255,0,0)
-            self.choiced_ball = ball
-            if self.choiced_ball != None:
-                self.choiced_ball.color = (0,0,255)
-        return True
+            for b in bolas_vindo:
+                if b.getX() > self.paddle.rect.right:
+                    if self.choiced_ball is None or b.getX() < self.choiced_ball.getX():
+                        self.setChoicedBall(b)
+                        return self.choiced_ball
+            return False
+        elif self.paddle.n == 2:
+            bolas_vindo = [b for b in self.ball_group if b.velocity_x > 0]
 
+            for b in bolas_vindo:
+                if b.getX() > self.paddle.rect.right:
+                    if self.choiced_ball is None or b.getX() < self.choiced_ball.getX():
+                        self.setChoicedBall(b)
+                        return self.choiced_ball
+            return False
+        
     def autoMove(self):
         if self.choiced_ball != None:
             if self.paddle.n == 1:
-                if self.paddle.getCenter() < self.calcularRota(self.choiced_ball)[1]:
-                    self.paddle.moveDown()
-                elif self.paddle.getCenter() > self.calcularRota(self.choiced_ball)[1]:
-                    self.paddle.moveUp()
-                else:
-                    self.paddle.stop()
+                self.moverY(self.calcularRota(self.choiced_ball)[1])
             
             elif self.paddle.n == 2:
                 if self.decision().velocity_x > 0:
@@ -101,6 +92,18 @@ class Player:
                     x2 = ball_input.window.get_width()
                     if ball_vx > 0:
                         ball_vx *= -1
-                pygame.draw.rect(ball_input.window,self.color,pygame.Rect(x2, y2, 10, 10))
+                pygame.draw.circle(ball_input.window,(0,255,0),(x2, y2), ball_input.radius)
 
         return (x2, y2)
+
+    def setChoicedBall(self, ball):
+        if self.choiced_ball == None:
+            self.choiced_ball = ball
+            if self.choiced_ball != None:
+                self.choiced_ball.color = (0,0,255)
+        else:
+            self.choiced_ball.color = (255,0,0)
+            self.choiced_ball = ball
+            if self.choiced_ball != None:
+                self.choiced_ball.color = (0,0,255)
+        return True

@@ -2,7 +2,6 @@ import pygame
 from models.Ball import Ball
 from models.Paddle import Paddle
 from models.Player import Player
-import time
 
 #Window setting
 WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
@@ -15,7 +14,17 @@ def display_config():
     pygame.display.update()
     clock.tick(60)
 
-'''    move = pygame.key.get_pressed()
-    if move[pygame.K_RIGHT]:
-        time.sleep(1000)'''
-    
+balls = 10
+ball_group = pygame.sprite.Group()
+for b in range(balls):
+    b = Ball(window)
+    ball_group.add(b)
+
+paddle_group = pygame.sprite.Group()
+paddle1 = Paddle(window, 1)
+paddle_group.add(paddle1)
+paddle2 = Paddle(window, 2)
+paddle_group.add(paddle2)
+
+player1 = Player(paddle1, ball_group)
+player_group = [player1]
