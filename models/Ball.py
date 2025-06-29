@@ -23,7 +23,7 @@ class Ball(pygame.sprite.Sprite):
         self.move()
         self.screenColision()
         self.draw()
-        if self.screenColision():
+        if self.screenColision() in ["left", "right"]:
             self.isAlive = False
 
     def aumentaVelocidade(self):
@@ -41,24 +41,24 @@ class Ball(pygame.sprite.Sprite):
         if self.rect.left <= 0:
             self.rect.left = 0
             if self.velocity_x < 0:
-                return True
+                return "left"
         
         elif self.rect.right >= self.window.get_width():
             self.rect.right = self.window.get_width()
             if self.velocity_x > 0:
-                return True
+                return "right"
         
         if self.rect.top <= 0:
             self.rect.top = 0
             if self.velocity_y < 0:
                 self.invertY()
-                return True
+                return "top"
         
         elif self.rect.bottom >= self.window.get_height():
             self.rect.bottom = self.window.get_height()
             if self.velocity_y > 0:
                 self.invertY()
-                return True
+                return 'bottom'
         
         return False
 

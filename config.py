@@ -27,4 +27,11 @@ paddle2 = Paddle(window, 2)
 paddle_group.add(paddle2)
 
 player1 = Player(paddle1, ball_group)
-player_group = [player1]
+player2 = Player(paddle2, ball_group)
+player_group = [player1, player2]
+
+def addBall():
+    key_pressed = pygame.key.get_pressed()
+    if key_pressed[pygame.K_UP]:
+        b = Ball(window)
+        ball_group.add(b)

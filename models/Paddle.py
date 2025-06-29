@@ -12,7 +12,7 @@ class Paddle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=(50 if n == 1 else window.get_width()-60 if n == 2 else window.get_width()/2, (window.get_height()/2)-(self.height/2)))
         self.velocity = 5
         self.way = 1
-        self.color = (0,0,255) #BLUE
+        self.color = ((0,0,0) if self.n == 1 else (0,0,255))
         self.pontos = 0
 
     def update(self):
