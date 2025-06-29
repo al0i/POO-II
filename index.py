@@ -33,16 +33,34 @@ while running:
             vai_morrer.append(b)
         
         if colided:
-            if b.velocity_x > 0:
-                b.rect.right = colided[0].rect.left
-                b.invertX()
-                player1.setChoicedBall(None)
-                player2.setChoicedBall(None)
-            elif b.velocity_x < 0:
-                b.rect.left = colided[0].rect.right
-                b.invertX()
-                player1.setChoicedBall(None)
-                player2.setChoicedBall(None)
+            paddle = colided[0]
+            
+            # Cálculo da diferença de impacto vertical
+            impact_point = b.rect.centery - paddle.rect.centery
+            normalized = impact_point / (paddle.height / 2)  # -1 (topo) a +1 (base)
+            normalized = max(-1, min(normalized, 1))  # Garantir que está no intervalo
+
+            # Define o ângulo máximo (em radianos)
+            max_angle = math.radians(70)
+            angle = normalized * max_angle
+
+            # Magnitude da velocidade da bola
+            speed = (b.velocity_x**2 + b.velocity_y**2) ** 0.5
+
+            # Direção depende de qual paddle colidiu (esquerda ou direita)
+            if b.velocity_x > 0:  # bola veio da esquerda → paddle da direita
+                new_angle = angle
+                b.velocity_x = -speed * math.cos(new_angle)
+                b.velocity_y = speed * math.sin(new_angle)
+                b.rect.right = paddle.rect.left
+            else:  # bola veio da direita → paddle da esquerda
+                new_angle = angle
+                b.velocity_x = speed * math.cos(new_angle)
+                b.velocity_y = speed * math.sin(new_angle)
+                b.rect.left = paddle.rect.right
+
+            player1.setChoicedBall(None)
+            player2.setChoicedBall(None)
     
     for b in vai_morrer:
         ball_group.remove(b)

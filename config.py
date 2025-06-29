@@ -1,4 +1,4 @@
-import pygame
+import pygame, math
 from models.Ball import Ball
 from models.Paddle import Paddle
 from models.Player import Player
