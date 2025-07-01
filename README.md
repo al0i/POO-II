@@ -15,3 +15,6 @@ Controls the paddle by their decisions.
 
 
 ![img1](https://github.com/user-attachments/assets/49aad5ed-a7fd-46c8-b4d6-d0cc71a5dded)
+
+## UML Class Diagram
+![uml](https://github.com/user-attachments/assets/2d30ed4e-0d3c-41cc-8617-4a71cb574369)
